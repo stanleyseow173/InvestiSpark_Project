@@ -1,0 +1,91 @@
+<div class="wrapper">
+    <div class="page-header page-header-small">
+        <div class="page-header-image rellax-header" data-rellax-speed="-8" style="background-image: url('assets/img/bg-header.png');">
+        </div>
+    </div>
+    <div class="section section-about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="description">Community </h3>
+                </div>
+            </div>
+            <div class="row">
+                  <div class="watchlist-button">
+                    <button class="button-75" (click)="openDialog()" >+ Create Post</button>
+                </div>
+            </div>
+
+            <div class="filters">
+              <span>Category: &nbsp;</span>
+              <select [formControl]="category" (change)="onFilterChange()">
+                <option value="">All</option>
+                <option value="General">General</option>
+                <option value="Estimation">Estimation</option>
+                <option value="Research">Research</option>
+                <option value="News">News</option>
+              </select>
+              &nbsp;&nbsp;&nbsp;
+              <span>Filter Tags: &nbsp;</span>
+              <input placeholder="Tag" [formControl]="tag" (input)="onFilterChange()">
+              &nbsp;
+              <button class="btn" [ngClass]="{'btn-active': followBtn}" (click)="followBtn = !followBtn; getPosts()">Following</button>
+              &nbsp;
+              <button class="btn" [ngClass]="{'btn-active': watchlistBtn}" (click)="watchlistBtn = !watchlistBtn; getPosts()">Watchlist</button>
+            </div>
+
+            <div *ngIf="posts$ | async as posts">
+              <mat-card *ngFor="let post of posts; let i=index" class="post-card">
+                <mat-card-header class="header-container">
+                    <div mat-card-avatar class="post-avatar">
+                      <img [src]="emailImageUrls.get(post.authorEmail)" alt="User Profile Picture">
+                    </div>
+                    <div class="title-and-subtitle">
+                      <mat-card-title class="mat-title-class">
+                        <a class = "profile-title" [routerLink]= "['/user',post.authorEmail]">{{ getUserFirstLastName(post.authorEmail) }}</a>
+                        </mat-card-title>
+                      <mat-card-subtitle><i>Posted on: {{ post.timestamp }}</i></mat-card-subtitle>
+                    </div>
+                    
+                  <button mat-button class="category" [ngClass]="post.category">{{post.category}}</button>
+                </mat-card-header>
+                <div *ngIf="linkPreviewData[post.id] | async as linkData">
+                  <mat-card class="post-card-news">
+                    <a  class="url-anchor"[href]="linkData.url"  target="_blank">
+                      <mat-card-header class="header-container">
+                          <div mat-card-avatar class="post-avatar-news">
+                            <img [src]="linkData.imageUrl">
+                          </div>
+                          <div class="title-and-subtitle">
+                            <mat-card-title class="mat-title-class">
+                              <a class = "profile-title" >{{ linkData.title }}</a>
+                              </mat-card-title>
+                            <mat-card-subtitle class="subtitle-specific"><i>{{ linkData.description}}</i></mat-card-subtitle>
+                            <p class="url">{{linkData.url}}</p>
+                          </div>
+                      </mat-card-header>
+                    </a>
+                  </mat-card>
+                </div>
+                <mat-card-content>
+                  <div *ngIf="post.symbol">
+                    <span>
+                      <span class="estimate-style">Estimate for &nbsp; </span> 
+                      <span class="targetandsymbol"><strong> {{post.symbol}}:&nbsp; {{post.target}}</strong> </span>
+                      <span class="estimate-style">&nbsp; by {{post.targetDate}}</span>
+                    </span>
+                    
+                  </div>
+                  <pre>{{ post.content }}</pre>
+                  <div *ngIf="post.tag">
+                    <div class="tag-container">
+                        <button mat-button *ngFor="let tag of getTags(post.tag)" class="tag">{{ tag }}</button>
+                      </div>
+                  </div>
+                  
+                </mat-card-content>
+              </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

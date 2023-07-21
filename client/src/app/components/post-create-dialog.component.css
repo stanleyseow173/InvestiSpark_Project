@@ -1,0 +1,111 @@
+.mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  .wider-dialog-content{
+      width:100%;
+      height:100%
+  }
+  
+  .author-email{
+    margin-left: 10%;
+    font-size: 0.8em;
+    font-style: italic;
+    color: grey;
+  }
+.mat-dialog-title{
+    padding-bottom: 1em;
+}
+
+.outerSearchDiv{
+    position: relative;
+}
+
+.innerSearchDiv{
+    position: absolute;
+    background: white;
+    padding-left: 4%;
+    width: 100%;
+    z-index: 100;
+    text-align: left;
+}
+
+.createPostBtn{
+    background-color: rgb(226, 135, 24);
+    color: white !important;
+    width: 90%;
+}
+
+.tipsDiv{
+    position: relative;
+    padding-left: 4%;
+    width: 100%
+}
+
+.dropmenudialog{
+    text-align: right;
+    padding-top: 3em;
+    padding-right: 3em;
+    vertical-align: bottom;
+}
+
+.estimation-title{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.estimation-table th,td{
+    padding-left:1em;   
+}
+
+.estimation-header{
+    font-size: 1em;
+    color: grey;
+}
+
+.estimation-div{
+    padding-left: 3em;
+}
+
+
+.mat-mdc-card-avatar{
+    height: auto;
+    width: 20%;
+}
+
+.subtitle-specific{
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.post-card {
+    max-width: 95%;
+    margin: 10px auto;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mat-title-class{
+    font-size: 1em;
+  }
+  
+  .url{
+    font-size: 0.6em;
+    color: grey;
+  }
+
+  .header-container {
+    display: flex;
+    justify-content: left;
+}
+  .title-and-subtitle{
+    display: flex;
+    flex-direction: column;
+    margin-left: 2em;
+  }

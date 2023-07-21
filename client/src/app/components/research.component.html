@@ -1,0 +1,459 @@
+<div class="wrapper">
+    <div class="page-header page-header-small">
+        <div class="page-header-image rellax-header" data-rellax-speed="-8" style="background-image: url('assets/img/bg-header.png');">
+        </div>
+    </div>
+    <div class="section section-about-us">
+        <div class="container">
+            
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="description">Stock Research on: </h3>
+                    <div class="card shadow">
+                        <div class="input-group no-border">
+                            <input [value] = "inputValue" type="text" id="filter" placeholder="Search Stock..." (keyup)="filterSubject.next(inputFilter.value)" class="form-control"  aria-label="Search" #inputFilter>
+                        </div>
+                    </div>
+                    <p class="paragraph-notice">*Limit of 5 API calls per minute</p>
+                </div>
+            </div>
+           
+            
+            <div class="outerSearchDiv">
+                <div class="innerSearchDiv" *ngIf="!isLoading; else loading">
+                    <ng-container *ngIf="stocks$ | async as stocks; else noResults">
+                        <div *ngIf ="stocks.length >0; else noResults">
+                            <div *ngFor="let s of stocks">
+                                <a class="custom-link" (click)="getQuote(s.symbol, s.name)">{{s.symbol}}: ({{s.name}})</a>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #noResults></ng-template>
+                </div>
+                <ng-template #loading>
+                    <div class="loader">
+                    </div>
+                </ng-template>
+            </div>
+            
+            
+
+            <div *ngIf="stockCurrentOverview$ | async as stockOvr">
+                <div *ngIf="stockCurrent$ | async as stock" class="row">
+                    <div class="col-md-6">
+                        <div class="stock-content-left">
+                            <p class="stock-name">{{stockOvr.name}}</p>
+                            <p class="ticker">{{stockOvr.exchange}}: {{stockOvr.symbol}}</p>
+                            <table class="stockinfo">
+                                <tr>
+                                    <td>
+                                        Country:
+                                    </td>
+                                    <td >
+                                        <b>&nbsp; &nbsp; {{stockOvr.country}}</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Sector:
+                                    </td>
+                                    <td>
+                                        <b>&nbsp; &nbsp; {{stockOvr.sector}}</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Industry:
+                                    </td>
+                                    <td>
+                                        <b>&nbsp; &nbsp; {{stockOvr.industry}}</b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="watchlist-button">
+                            <button class="button-75" (click)="addStocktoWatchlist()" >+ Add to watchlist</button>
+                        </div>
+                        <div class="stock-content-right">
+                            <span *ngIf="isPositiveChange(stock.change)" class="triangle-positive">&#9650;</span>
+                            <span *ngIf="!isPositiveChange(stock.change)" class="triangle-negative">&#9660;</span>
+                            <span class="stock-price"> {{stock.price}}</span>
+                            <span class="currency"> {{stockOvr.currency}} </span>
+                            <p [ngClass]="{'stock-change-positive': isPositiveChange(stock.change), 'stock-change-negative': !isPositiveChange(stock.change)}">{{stock.change}} ({{stock.changePercent}})</p>
+                            <p class="trading-date">Latest trading day: {{stock.day}}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TradingView Widget -->
+                <div class="row">
+                    <div class="col-xxl-12 tradingview-widget-container">
+                        <iframe [src]="iframeSrc" width="100%" height="100%"></iframe>
+                    </div>
+                </div>
+                <!-- <div class="separator separator-primary"></div> -->
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="description">Description</h3>
+                        <p>
+                            {{stockOvr.description}}                        
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        
+                        <div class="stock-card">
+                            <h3 class="description">Valuation Stats</h3>
+                            <table width="100%">
+                                <tr>
+                                    <td class="td-stats">
+                                        PE Ratio TTM:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.peratio}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                       Forward PE Ratio:
+                                    </td>
+                                    <td class="td-data"> 
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.forwardpe}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        PEG Ratio:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.pegratio}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        Dividend Yield:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.divyield}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        PB Ratio:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.pbratio}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        PS Ratio:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.psratio}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        Analyst Target:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.analysttarget}} </b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="stock-card">
+                            <h3 class="description">Operating Stats</h3>
+                            <table width="100%">
+                                <tr>
+                                    <td class="td-stats">
+                                        Operating Margin:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.operatingmargin}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                       Profit Margin:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.profitmargin}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        ROA:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.roa}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        ROE TTM:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.roe}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        Qtr Rev Growth (YOY):
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.qtrrevenuegrowth}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        Qtr Earnings Growth (YOY):
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.qtrearningsgrowth}} </b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="stock-card">
+                            <h3 class="description">Technical Stats</h3>
+                            <table width="100%">
+                                <tr>
+                                    <td class="td-stats">
+                                        52 Week High:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.fiftytwohigh}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                       52 Week Low:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.fiftytwolow}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        50 Day SMA:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.fiftydayma}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        200 Day SMA:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.twohundreddayma}} </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-stats">
+                                        Beta:
+                                    </td>
+                                    <td class="td-data">
+                                        <b>&nbsp; &nbsp; &nbsp; {{stockOvr.beta}} </b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <!-- News Feed Posts -->
+                    <div class="col-md-6">
+                        <h3 class="description">News about: {{currentStockSymbol}}</h3>
+                        <div class="news-container">
+                            <p class="sentiment-analysis-title">Sentiment Analysis of News Feed:</p>
+                        <p class="timestamp-note"> Powered by text-processing.com </p>
+                        <ngx-charts-pie-grid
+                            *ngIf="chartData?.length" 
+                            [view]="view"
+                            [scheme]="colorScheme"
+                            [results]="chartData">
+                        </ngx-charts-pie-grid>
+                        <div class="card-container-2">
+                            <div class="card-2" *ngFor="let article of articles">
+                              <img [src]="article.imageUrl" alt="Article image">
+                              <a [href]="article.url" target="_blank">
+                                <h5>{{ article.title }}</h5>
+                              </a>
+                              
+                              <p>{{ article.description }}</p>
+                            </div>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    <!-- Community Feed Posts -->
+                    <div class="col-md-6">
+                        <h3 class="description">Community Feed on: {{currentStockSymbol}}</h3>
+                        
+                        <div class="posts-container" *ngIf="posts$ | async as posts">
+                            <div class="filters">
+                                <span>Category: &nbsp;</span>
+                                <select class="minimal" [formControl]="category" (change)="onFilterChange()">
+                                  <option value="">All</option>
+                                  <option value="General">General</option>
+                                  <option value="Estimation">Estimation</option>
+                                  <option value="Research">Research</option>
+                                  <option value="News">News</option>
+                                </select>
+                                &nbsp;&nbsp;&nbsp;
+                                <button class="btn" [ngClass]="{'btn-active': followBtn}" (click)="followBtn = !followBtn; getPosts()">Following</button>
+                            </div>
+                            <mat-card *ngFor="let post of posts; let i=index" class="post-card">
+                              <mat-card-header class="header-container">
+                                  <div mat-card-avatar class="post-avatar">
+                                    <img [src]="emailImageUrls.get(post.authorEmail)" alt="User Profile Picture">
+                                  </div>
+                                  <div class="title-and-subtitle">
+                                    <mat-card-title class="mat-title-class">
+                                      <a class = "profile-title" [routerLink]= "['/user',post.authorEmail]">{{ getUserFirstLastName(post.authorEmail) }}</a>
+                                      </mat-card-title>
+                                    <mat-card-subtitle class="card-subtitle"><i>Posted on: {{ post.timestamp }}</i></mat-card-subtitle>
+                                  </div>
+                                  
+                                <button mat-button class="category" [ngClass]="post.category">{{post.category}}</button>
+                              </mat-card-header>
+                              <div *ngIf="linkPreviewData[post.id] | async as linkData">
+                                <mat-card class="post-card-news">
+                                  <a  class="url-anchor"[href]="linkData.url"  target="_blank">
+                                    <mat-card-header class="header-container">
+                                        <div mat-card-avatar class="post-avatar-news">
+                                          <img [src]="linkData.imageUrl">
+                                        </div>
+                                        <div class="title-and-subtitle">
+                                          <mat-card-title class="mat-title-class">
+                                            <a class = "profile-title" >{{ truncateText(linkData.title, 70) }}</a>
+                                            </mat-card-title>
+                                          <mat-card-subtitle class="subtitle-specific"><i>{{ truncateText(linkData.description, 140)}}</i></mat-card-subtitle>
+                                          <p class="url">{{truncateText(linkData.url,80)}}</p>
+                                        </div>
+                                    </mat-card-header>
+                                  </a>
+                                </mat-card>
+                              </div>
+                              <mat-card-content>
+                                <div *ngIf="post.symbol">
+                                  <span>
+                                    <span class="estimate-style">Estimate for &nbsp; </span> 
+                                    <span class="targetandsymbol"><strong> {{post.symbol}}: &nbsp; {{post.target}}</strong> </span>
+                                    <span class="estimate-style">&nbsp; by {{post.targetDate}}</span>
+                                  </span>
+                                  
+                                </div>
+                                <pre class="preformatted-content">{{ post.content }}</pre>
+                                <div *ngIf="post.tag">
+                                  <div class="tag-container">
+                                      <button mat-button *ngFor="let tag of getTags(post.tag)" class="tag">{{ tag }}</button>
+                                    </div>
+                                </div>
+                                
+                              </mat-card-content>
+                            </mat-card>
+                          </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="center-button">
+                            <h3 class="description">My {{currentStockSymbol}} Notes</h3>
+                            <button mat-raised-button class="save-btn update-btn" (click)="updateNote()">Update Note</button>
+                        </div>
+                        
+                        <div *ngIf="note">
+                            <p class="timestamp-note"> Notes last saved on: {{note.date}}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class = "form-control form-control-specific" rows="25" id="content" [(ngModel)]="note.content" placeholder="Notes"></textarea>
+                        </div>
+                    </div>
+                    
+
+                    <div class="col-md-6">
+                        <h3 class="description"> Checklist for {{currentStockSymbol}}</h3>
+                            <div class="checklist">
+                                
+    
+                                <select class="minimal" #selectedChecklist>
+                                    <option *ngFor="let checklist of checklistsDropDown" [value]="checklist.id">{{checklist.title}}</option>
+                                </select>
+                                <button mat-raised-button class="save-btn get-template-btn" (click)="loadChecklistItems(selectedChecklist.value)">Get from template</button>
+                                <button mat-raised-button class="save-btn get-template-btn" (click)="getChecklist()">Load from saved</button>
+    
+                            </div>
+                            
+                            <br>
+                            
+                            <div>
+                                <div cdkDropList (cdkDropListDropped)="drop($event)">
+                                    <table class="table-class">
+                                            <tr *ngFor="let item of checklistItems; let i = index" cdkDrag>
+                                                <td>
+                                                    <input class="check-item" type="checkbox" [(ngModel)]="item.checked" />
+                                                </td>
+                                                <td>
+                                                    <span class="item-title">
+                                                        {{item.item}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <input class="item-remarks" type="text" [(ngModel)]="item.remarks" placeholder="..." />
+                                                </td>
+                                                <td>    
+                                                    <label class="delete-item" (click)="removeItem(i)">X</label>
+                                                </td>
+                                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div>
+                                <input class="form-control form-item" [(ngModel)]="newItemString" placeholder="Type new checklist item here...">
+                                <div class="button-position">
+                                    <button class="add-button" (click)="addItem()">Add Item</button>
+                                    <div class="save-position">
+                                        <button mat-raised-button class="save-btn checklist-btn" (click)="saveItems()">Save Checklist</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>    
+                        </div>
+               
+                </div>
+                
+                <button mat-raised-button class="save-btn checklist-btn" (click)="updateStockOverview()">Update Overview</button>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+</div>
+
+<ng-template #loading>
+    <div>Loading...</div>
+</ng-template>

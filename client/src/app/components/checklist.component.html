@@ -1,0 +1,50 @@
+<div class="wrapper">
+    <div class="page-header page-header-small">
+        <div class="page-header-image rellax-header" data-rellax-speed="-8" style="background-image: url('assets/img/bg-header.png');">
+        </div>
+    </div>
+    <div class="section section-about-us">
+        <div class="container">
+            <div class="add-new-checklist">
+                <button mat-raised-button class="save-btn checklist-btn" (click)="createNewCheckList()">+ New Checklist</button>
+                <div class = "checklist-dropdown">
+                    <select class="minimal" [(ngModel)]="selectedChecklist" (ngModelChange)="onSelectChecklist($event)">
+                        <option *ngFor="let checklist of checklistsDropDown" [value]="checklist.id">{{checklist.title}}</option>
+                    </select>
+                </div>  
+            </div>
+            <div class="row">
+                <div class="checklist-title">
+                <input class="form-control form-title" [(ngModel)]="checklistTitle" placeholder="My Checklist...">
+                </div>
+                
+            </div>
+            <br> 
+            <div>
+                <input class="form-control form-item" [(ngModel)]="newItem" placeholder="Type new checklist item here...">
+                <div class="button-position">
+                    <button class="add-button" (click)="addItem()">Add Item</button>
+                </div>
+            </div>
+            <br>
+            
+            <div>
+                <div cdkDropList (cdkDropListDropped)="drop($event)">
+                <mat-card class="mat-card" *ngFor="let item of items; let i = index" cdkDrag>
+                    <div class="mat-item">
+                        <span>
+                            {{item}}
+                        </span>
+                        <label class="delete-item" (click)="removeItem(i)">X</label>
+                    </div>
+                </mat-card>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="save-position">
+                <button mat-raised-button class="save-btn" (click)="saveItems()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

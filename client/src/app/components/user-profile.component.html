@@ -1,0 +1,58 @@
+<div class="wrapper">
+    <div class="page-header page-header-small">
+        <div class="page-header-image rellax-header" data-rellax-speed="-8" style="background-image: url('assets/img/bg-header.png');">
+        </div>
+    </div>
+    <div class="section section-about-us">
+        <div class="container">
+            <div class="row">
+                <div class ="col-md-12">
+                    <div *ngIf="userStats && currentUser">
+                        <div class="card">
+                            <div class="user-profile-title">
+                                <h3>User Profile</h3>
+                            </div>
+            
+                            <img [src]="emailImageUrls.get(profileUser.email)" alt="Person" class="card__image">
+                            <div *ngIf="!checkIfNotUser()">
+                                <form [formGroup]="form">
+                                    <label for="file-upload" class="custom-file-upload">
+                                        Edit Profile Picture
+                                    </label>
+                                    <input id="file-upload" type="file" (change)="onFileSelect($event)" />
+                                    <!-- <button type="submit">Upload</button> -->
+                                </form>
+                            </div>
+                            <p class="card__name">{{profileUser.firstname}} {{profileUser.lastname}}</p>
+                            <p class="user-profile-email">{{profileUser.email }}</p>
+                            <br>
+                            <div class="grid-container">
+                                <p><i class="fas fa-star"></i>
+                                    Reputation <br> {{ userStats.reputation }}</p>
+                                <p><i class="fas fa-users"></i>
+                                    Followers <br> {{ userStats.followers }}</p>
+                        
+                                <p><i class="fas fa-user-plus"></i>
+                                        Following <br> {{ userStats.following }}</p>
+                            </div>
+                            <div class="grid-container-lower">
+                                <p><i class="fas fa-pencil-alt"></i>
+                                    Posts <br> {{ userStats.posts }}</p>
+                                <p><i class="fas fa-clipboard"></i>
+                                    Estimates <br> {{ userStats.estimates }}</p>
+                        
+                                <!-- <p><i class="fas fa-thumbs-up"></i>
+                                        Likes <br> {{ userStats.likes }}</p> -->
+                            </div>
+                            <div *ngIf="checkIfNotUser()">
+                                <button class="btn" [ngClass]="{'btn-active': isFollowing}" (click)="toggleFollow()">{{ isFollowing ? 'Following' : 'Follow' }}</button>           
+                            </div>
+                          </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+</div>

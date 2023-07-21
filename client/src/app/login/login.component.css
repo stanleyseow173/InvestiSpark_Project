@@ -1,0 +1,51 @@
+.diverror{
+    color: red;
+    padding-bottom: 5px;
+}
+
+.input-group>.input-group-prepend>.btn, .input-group>.input-group-prepend>.input-group-text, .input-group>.input-group-append:not(:last-child)>.btn, .input-group>.input-group-append:not(:last-child)>.input-group-text, .input-group>.input-group-append:last-child>.btn:not(:last-child):not(.dropdown-toggle), .input-group>.input-group-append:last-child>.input-group-text:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: 0;
+}
+
+.input-group-prepend,.input-group-append {
+    display: flex
+}
+
+.btn-facebook, .btn-facebook:hover, .btn-facebook:first-child:active {
+    background: #3B5998;
+    border-color: #3B5998;
+    color: #fff !important;
+}
+
+.fa-facebook-f:before, .fa-facebook:before {
+    content: "\f09a";
+}
+
+.g-signin{
+    width:100%;
+    text-align: center;
+}
+
+.g-signin2 > div{
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+}
+
+.card-style{
+    width: 320px;
+}
+
+hr {
+    display: block;
+    height: 5px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+  }

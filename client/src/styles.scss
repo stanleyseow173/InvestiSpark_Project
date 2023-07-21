@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+body {
+    margin: 0;
+  }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: rgb(39, 186, 39) !important;
+  //background-color: rgb(0, 128, 0);
+  //color:white;
+}

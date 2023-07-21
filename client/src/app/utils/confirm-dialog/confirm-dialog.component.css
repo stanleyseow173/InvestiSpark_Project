@@ -1,0 +1,11 @@
+
+.button-class-specific {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-class-specific button{
+    flex-grow:1;
+    margin: 0 10px;
+}

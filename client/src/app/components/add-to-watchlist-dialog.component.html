@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Add to Watchlist</h2>
+
+<mat-dialog-content class="dialog-content wider-dialog-content">
+  <form>
+    <mat-form-field appearance="fill" class="wider-dialog-content">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="data.email" name="email" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="wider-dialog-content">
+      <mat-label>Stock Symbol</mat-label>
+      <input matInput [(ngModel)]="data.stock.symbol" name="stockSymbol" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="wider-dialog-content">
+      <mat-label>Stock Name</mat-label>
+      <input matInput [(ngModel)]="data.stock.name" name="stockName" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="wider-dialog-content">
+      <mat-label>Target Buy Below Price</mat-label>
+      <input matInput [(ngModel)]="data.stock.buytarget" name="stockBuyTarget">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="wider-dialog-content">
+        <mat-label>Target Sell Above Price</mat-label>
+        <input matInput [(ngModel)]="data.stock.selltarget" name="stockSellTarget">
+      </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="addToWatchlist()">Add</button>
+</mat-dialog-actions>

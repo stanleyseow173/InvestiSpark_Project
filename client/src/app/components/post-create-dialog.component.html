@@ -1,0 +1,98 @@
+<form [formGroup] = "form" (ngSubmit)="createPost()">
+    <div class ="row">
+        <div class="col-sm-6">
+            <h2 mat-dialog-title>Create Post</h2>
+        </div>
+        <div class="col-sm-6 dropmenudialog">
+            Category:
+            <select formControlName="category" class="dropdown">
+                <option value="General" selected>General</option>
+                <option value="Estimation">Estimation</option>
+                <option value="Research">Research</option>
+                <option value="News">News</option>
+            </select>
+        </div>
+    </div>
+    <div *ngIf="linkData">
+        <mat-card class="post-card">
+            <mat-card-header class="header-container">
+                <div mat-card-avatar class="post-avatar">
+                  <img [src]="linkData.imageUrl">
+                </div>
+                <div class="title-and-subtitle">
+                  <mat-card-title class="mat-title-class">
+                    <a class = "profile-title" [href]="linkData.url" target="_blank">{{ linkData.title }}</a>
+                    </mat-card-title>
+                  <mat-card-subtitle class="subtitle-specific"><i>{{ linkData.description}}</i></mat-card-subtitle>
+                  <p class="url">{{linkData.url}}</p>
+                </div>
+            </mat-card-header>
+            
+        </mat-card>
+      </div>
+    <mat-dialog-content>  
+      <mat-form-field class="wider-dialog-content">
+        <mat-label>Content</mat-label>
+        <textarea matInput formControlName="content" rows="11" (keyup)="keyUp(inputValue.value)" #inputValue></textarea>
+      </mat-form-field>
+    </mat-dialog-content>
+    <div class="estimation-div" *ngIf="form.get('category').value === 'Estimation' ">
+        <p class="estimation-title">Your Estimate:</p>
+        <table class="estimation-table">
+            <tr class="estimation-header">
+                <td>
+                    Stock Symbol
+                </td>
+                <td>
+                    Target
+                </td>
+                <td>
+                    Target Date
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" id="symbol" formControlName="symbol" (keyup)="keySymbol(symbolValue.value)"   #symbolValue>
+                </td>
+                <td>
+                    <input type="number" id="target" formControlName="target">
+                </td>
+                <td>
+                    <input type="date" id="targetDate" formControlName="targetDate">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="outerSearchDiv">
+        <div class="innerSearchDiv">
+            <ng-container *ngIf="stocks$ | async as stocks; else noResults">
+                <div class="search-Results" *ngIf ="stocks.length >0; else noResults">
+                    <div *ngFor="let s of stocks">
+                        <a class="custom-link" (click)="selectTag(s.symbol)">{{s.symbol}}: ({{s.name}})</a>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="innerSearchDiv">
+            <ng-container *ngIf="symbols$ | async as symbols; else noResults">
+                <div class="search-Results" *ngIf ="symbols.length >0; else noResults">
+                    <div *ngFor="let sy of symbols">
+                        <a class="custom-link" (click)="selectSymbol(sy.symbol)">{{sy.symbol}}: ({{sy.name}})</a>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <ng-template #noResults></ng-template>
+    </div>
+    <div class="tipsDiv">
+        <h4><strong>Tips on making great posts</strong></h4>
+        <ul>
+            <li>Write your posts with detailed information, explanations and links for references</li>
+            <li>Use $ sign to tag a stock as this helps others to reach your post better</li>
+            <li>Build up reputation points by posting regularly</li>
+        </ul>
+    </div>
+    <mat-dialog-actions align="center">
+      <button class="createPostBtn" mat-button type="submit">Create</button>
+    </mat-dialog-actions>
+</form>

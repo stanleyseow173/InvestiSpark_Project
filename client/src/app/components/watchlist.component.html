@@ -1,0 +1,86 @@
+<div class="wrapper">
+    <div class="page-header page-header-small">
+        <div class="page-header-image rellax-header" data-rellax-speed="-8" style="background-image: url('assets/img/bg-header.png');">
+        </div>
+    </div>
+    <div class="section section-about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Watchlist</h2>
+                    <p>Current User: {{currentUser.email}}</p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="watchlist-button">
+                        <button class="button-75" (click)="sendEmail()" >Send Email Alerts Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col-xl-12">
+                    <div *ngIf="isLoading">
+                        <div class="loader">
+                        </div>
+                    </div>
+                    <table class="table-padding table table-hover text-nowrap" *ngIf="!isLoading && hasWatchlist">
+                        <thead>
+                          <tr>
+                            <th scope="col">Ticker</th>
+                            <th scope="col">Name</th>
+                            <th scope="col"></th>
+                            <th class="header-td" scope="col">Current Price</th>
+                            <th class="header-td" scope="col">% Change</th>
+                            <th class="header-td" scope="col">Buy Below</th>
+                            <th class="header-td" scope="col">% Diff</th>
+                            <th class="header-td" scope="col">Sell Above</th>
+                            <th class="header-td" scope="col">% Diff</th>
+                            <th class="header-td" scope="col">52 wk High</th>
+                            <th class="header-td" scope="col">% Diff </th>
+                            <th class="header-td" scope="col">52 wk Low</th>
+                            <th class="header-td" scope="col">% Diff</th>
+                            <th class="header-td" scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let stock of gWatchlist.stocks">
+                            <th scope="row">{{ stock.symbol }}</th>
+                            <td>{{ stock.name }}</td>
+                            <td>
+                                <button *ngIf="isPositiveFloat(+stock.buytarget - +stock.regularMarketPrice) && notEmpty(stock.buytarget)" class="buy-button">Buy</button>
+                                <button *ngIf="!isPositiveFloat(+stock.selltarget - +stock.regularMarketPrice) && notEmpty(stock.selltarget)" class="sell-button">Sell</button>
+                            </td>
+                            <td class="number-td">{{ stock.regularMarketPrice}}</td>
+                            <td [ngClass]="{'stock-change-positive': isPositiveChange(stock.regularMarketChangePercent), 'stock-change-negative': !isPositiveChange(stock.regularMarketChangePercent)}">
+                                <i [ngClass]="{'fa fa-caret-up me-1': isPositiveChange(stock.regularMarketChangePercent), 'fas fa-caret-down me-1': !isPositiveChange(stock.regularMarketChangePercent)}"></i>
+                                {{ stock.regularMarketChangePercent | number:'1.2-2'}}%</td>
+                            <td *ngIf="notEmpty(stock.buytarget)" class="number-td">{{ stock.buytarget }}</td>
+                            <td *ngIf="!notEmpty(stock.buytarget)" class="number-td"> </td>
+                            <td *ngIf="notEmpty(stock.buytarget)" [ngClass]="{'stock-change-positive': isPositiveFloat(((+stock.buytarget - +stock.regularMarketPrice) / +stock.regularMarketPrice) ), 'stock-change-negative': !isPositiveFloat(((+stock.buytarget - +stock.regularMarketPrice) / +stock.regularMarketPrice) )}">{{ ((+stock.buytarget - +stock.regularMarketPrice) / +stock.regularMarketPrice) * 100 | number:'1.2-2' }}%</td>
+                            <td *ngIf="!notEmpty(stock.buytarget)" class="number-td"> </td>
+                            <td *ngIf="notEmpty(stock.selltarget)" class="number-td">{{ stock.selltarget }}</td>
+                            <td *ngIf="!notEmpty(stock.selltarget)" ></td>
+                            <td *ngIf="notEmpty(stock.selltarget)" [ngClass]="{'stock-change-positive': !isPositiveFloat(((+stock.selltarget - +stock.regularMarketPrice) / +stock.regularMarketPrice) ), 'stock-change-negative': isPositiveFloat(((+stock.selltarget - +stock.regularMarketPrice) / +stock.regularMarketPrice) )}">{{ ((+stock.selltarget - +stock.regularMarketPrice) / +stock.regularMarketPrice) * 100 | number:'1.2-2' }}%</td>
+                            <td *ngIf="!notEmpty(stock.selltarget)" ></td>
+                            <td class="number-td">{{ stock.fiftyTwoWeekHigh }}</td>
+                            <td class="number-td">{{ ((+stock.fiftyTwoWeekHigh - +stock.regularMarketPrice) / +stock.regularMarketPrice) * 100 | number:'1.2-2' }}%</td>
+                            <td class="number-td">{{ stock.fiftyTwoWeekLow}}</td>
+                            <td class="number-td">{{ ((+stock.fiftyTwoWeekLow - +stock.regularMarketPrice) / +stock.regularMarketPrice) * 100 | number:'1.2-2' }}%</td>
+                            <td class="number-td">
+                                <i class="fas fa-edit icon-action" (click)="addStocktoWatchlist(stock)"></i> &nbsp;&nbsp;
+                                <i class="fas fa-trash-alt icon-action" (click)="deleteStock(stock.symbol)"></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                      </table>
+
+                      <div *ngIf="!isLoading && !hasWatchlist">
+                        <p>No stocks in watchlist</p>
+                      </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

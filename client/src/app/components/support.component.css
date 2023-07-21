@@ -1,0 +1,23 @@
+.description{
+    text-align: left;
+    color: rgb(73, 72, 72);
+}
+
+.signoff{
+    text-align: right;
+}
+
+.supporthead{
+    color: goldenrod;
+    text-align: left;
+}
+
+.paypal-button{
+    text-align: center;
+    width: 100%;
+    align-items: center;
+}
+
+.paypal-button-container{
+    text-align: center;
+}

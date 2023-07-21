@@ -1,0 +1,61 @@
+.ml-auto, .mx-auto {
+    margin-left: auto!important;
+}
+.topnav-right {
+    float: right;
+    position: absolute;
+    right: 0px;
+  }
+
+.navbarDiv {
+    display: flex;
+    flex-direction: auto;
+}
+
+@media(max-width:991px){
+    .navbarDiv{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+.fabEdit{
+    font-size: 1.5em;
+}
+
+.dropdown-menu{
+    left:auto;
+    right:0;
+}
+
+.dropdown-menu:before{
+    left:auto;
+    right: 5px;
+}
+
+.cdk-overlay-container{
+    z-index: 100000000000;
+}
+
+.nav-link{
+    cursor: pointer;
+}
+
+.nav-item-img {
+    height: 2.5em;
+    width: auto;
+    object-fit: cover;
+}
+
+.logintext{
+    color: goldenrod;
+}
+
+.navbar.navbar-transparent{
+    background-color: transparent !important;
+}
+
+.bg-primary {
+    background-color: darkorange !important;
+}

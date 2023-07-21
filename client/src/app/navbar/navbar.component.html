@@ -1,0 +1,87 @@
+<nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent" color-on-scroll="500">
+    <div class="container">
+        <div class="navbar-translate">
+            
+            <a class="navbar-brand" placement="middle">
+                <img class="navbar-brand" src="assets/img/logo-only-min.png" width="40">
+                InvestiSpark
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation" (click)="sidebarToggle()">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" data-nav-image="assets/img/blurred-image-1.jpg" data-color="orange">
+            <ul class="navbar-nav ml-auto">
+                <div class="navbarDiv" *ngIf="loginBtn$ | async as lgn; else logging">
+                  <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/about']">
+                        <p>About</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/support']">
+                      <p>Support</p>
+                   </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link btn btn-neutral" (click)="login()">
+                        <i class="now-ui-icons users_single-02 logintext"></i>
+                        <p class="logintext">Login</p>
+                    </a>
+                  </li>
+                </div>
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<ng-template #logging>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/about']">
+        <p>About</p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/checklist']">
+        <p>Checklist</p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/research']">
+        <p>Research</p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/watchlist']">
+        <p>Watchlist</p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/community']">
+        <p>Community</p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/support']">
+      <p>Support</p>
+   </a>
+  </li>
+  <li  class="nav-item">
+    <a class="nav-link" (click)="navigateToProfile()">
+      <div *ngIf="emailImageUrl | async as imageURL" mat-card-avatar class="post-avatar">
+        <img [src]="imageURL" alt="Person" class="card__image nav-item-img">
+      </div>
+      <p class="d-lg-none d-xl-none">&nbsp; Profile</p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" rel="tooltip" title="Sign Out" data-placement="bottom" (click)="logout()">
+      <i class="fas fa-sign-out-alt fabEdit"></i>
+      <p class="d-lg-none d-xl-none">&nbsp; Sign Out</p>
+    </a>
+  </li>
+</ng-template>

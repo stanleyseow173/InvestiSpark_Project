@@ -1,0 +1,93 @@
+html{
+    scroll-behavior: smooth;
+}
+
+.backgroundheader{
+    background-image: url("../../assets/img/login.jpg");
+}
+
+.hero_area{
+    min-height: 60vh;
+    background: linear-gradient(0deg, rgba(106, 96, 96, 0.2), rgba(226, 128, 66, 0.6));
+    align-items: center;
+}
+
+.slider_section{
+    width: 100%;
+}
+
+.btn-1{
+    background-color: orange !important;
+    border: darkorange !important;
+}
+
+.btn-1:hover{
+    cursor: pointer;
+    color: darkslategrey !important;
+}
+
+.container{
+    width: 80%;
+}
+
+.carousel-item.active {
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(238, 234, 231, 0.2));
+}
+
+.img-box-icon,
+.btn-box:hover div,
+.btn-box:hover .btn-box,
+.btn-box:hover a,
+.btn-box a{
+    background-color: orange !important;
+}
+
+.detail-box-specific{
+    width: 300px;
+    padding: 40px 20px 15px 20px;
+    background-color: #fff;
+    border-radius: 25px;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+.detail-box-specific h2 span {
+    font-size: 3rem;
+}
+
+.detail-box-specific h2 {
+    font-weight: bold;
+}
+
+
+.detail-box-specific h6 {
+    text-transform: uppercase;
+    color: #917932;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.box:hover h6{
+    text-transform: uppercase;
+    color: #917932;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.box:hover h2{
+    color: black;
+}
+
+.box:hover ul{
+    color: black;
+}
+
+.footer_section{
+    background-color: darkorange;
+}
+
+.server_section {
+    background: linear-gradient(110deg, transparent 25%, rgb(113, 74, 28) 25%);
+    padding: 55px 0;
+    color: #ffffff;
+}
