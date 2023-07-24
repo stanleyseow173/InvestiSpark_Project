@@ -56,10 +56,8 @@ public class EmailSendingJob {
 
                 // set up request to external api
                 HttpHeaders headers = new HttpHeaders();
-                // headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
                 headers.set("x-rapidapi-host", "mboum-finance.p.rapidapi.com");
                 headers.set("x-rapidapi-key", mBoumKey);
-                // HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
                 Mono<RapidApiQuote[]> quoteResponse = webClient.get()
                         .uri(externalApiUrl + symbols)
@@ -115,7 +113,7 @@ public class EmailSendingJob {
                     continue;
                 }
 
-                //System.out.println("Email sent");
+                // System.out.println("Email sent");
             }
 
         }

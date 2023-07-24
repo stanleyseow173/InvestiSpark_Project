@@ -269,7 +269,7 @@ export class ResearchComponent implements OnInit, OnDestroy{
 
   getNewsButton(symbol: string){
     const sub10 = this.getNews(symbol).subscribe((response: any) => {
-      const articles = response.data.map(article => ({
+      const articles = response.map(article => ({
         title: article.title,
         description: article.description,
         url: article.url,
@@ -391,7 +391,7 @@ export class ResearchComponent implements OnInit, OnDestroy{
   testLoad(){
     const sub15 = this.stockSvc.loadAllSymbols().subscribe(res=>{
       if(res){
-        //console.log('response from finishing:', res)
+        this.loadGreenSnackBar("Stock Symbols Updated!")
       } else{
         alert("Something went wrong..")
       }

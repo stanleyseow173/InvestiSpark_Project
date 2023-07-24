@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import nus.iss.tfip.miniProject.models.Watchlist;
 import nus.iss.tfip.miniProject.payload.request.DeleteStockRequest;
 import nus.iss.tfip.miniProject.payload.request.WatchlistRequest;
@@ -43,13 +46,12 @@ public class WatchlistController {
         }
         return new ResponseEntity<>(watchlist, HttpStatus.OK);
     }
-    
 
     @GetMapping("/getWatchlistQuotes/{symbolString}")
-    public ResponseEntity<?> getWatchlistQuotes(@PathVariable String symbolString){
+    public ResponseEntity<?> getWatchlistQuotes(@PathVariable String symbolString)
+            throws JsonMappingException, JsonProcessingException {
         return this.watchlistService.getWatchlistQuotes(symbolString);
     }
-
 
     @PostMapping("/deleteStock")
     public ResponseEntity<Void> deleteStock(@RequestBody DeleteStockRequest request) {

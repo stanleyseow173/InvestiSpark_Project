@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.json.Json;
@@ -82,7 +83,7 @@ public class StockController {
     
 
     @GetMapping(path = "/getNews/{ticker}")
-    public ResponseEntity<String> getNews(@PathVariable String ticker) {
+    public ResponseEntity<String> getNews(@PathVariable String ticker) throws JsonMappingException, JsonProcessingException {
         return stockSvc.getNews(ticker);
     }
 

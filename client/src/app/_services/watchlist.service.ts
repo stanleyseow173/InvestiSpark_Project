@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { GetWatchlist, GetWatchlistStock, WatchlistStock } from "app/models";
-import { map, mergeMap, Observable, of } from "rxjs";
+import { map, mergeMap, Observable, of, tap } from "rxjs";
 
 
 const ADDWATCHLIST_URL = "/api/addToStockWatchlist"
@@ -37,8 +37,12 @@ export class WatchlistService{
                     const symbols = watchlist.stocks.map(stock => stock.symbol).join('%2C');
                     //callbackend with string
                     return this.http.get<any[]>(`${GETWATCHLISTQUOTES_URL}/${symbols}`).pipe(
+                        //tap(data=>console.log(data)),
                         map(quotes =>{
+                            //console.info("received request back from server")
+                            //console.info(quotes);
                             watchlist.stocks.forEach(stock => {
+                                //console.info("went through watchlist")
                                 const quote = quotes.find(q => q.symbol === stock.symbol);
                                 if(quote){
                                     stock.fiftyTwoWeekHigh = quote.fiftyTwoWeekHigh;

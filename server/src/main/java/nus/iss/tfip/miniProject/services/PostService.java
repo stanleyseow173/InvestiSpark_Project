@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import nus.iss.tfip.miniProject.models.Post;
 import nus.iss.tfip.miniProject.payload.response.LinkPreviewData;
@@ -71,6 +72,7 @@ public class PostService {
         
     }
 
+    @Transactional
     public Post createPost(Post post) {
         Post newPost = postRepository.save(post);
         userStatsService.updateStats(post.getAuthorEmail());

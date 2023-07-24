@@ -8,17 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 
 import nus.iss.tfip.miniProject.dto.StockOverviewDto;
+import nus.iss.tfip.miniProject.models.NewsStructure;
+import nus.iss.tfip.miniProject.models.NewsTitle;
 import nus.iss.tfip.miniProject.models.Stock;
 import nus.iss.tfip.miniProject.models.StockOverview;
 import nus.iss.tfip.miniProject.repositories.jpa.StockSymbolRepository;
@@ -78,12 +85,21 @@ public class StockService {
         stockSymbolRepository.saveAll(stocks); // save new stocks
     }
 
-    public ResponseEntity<String> getNews(String ticker) {
+    public ResponseEntity<String> getNews(String ticker) throws JsonMappingException, JsonProcessingException {
         String url = "https://api.marketaux.com/v1/news/all?symbols=" + ticker
                 + "&language=en&filter_entities=true&api_token=" + marketNewsKey;
         //System.out.println("URL is = " + url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForEntity(url, String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            // System.out.println("Getting watchlist quotes from mboum:");
+            // System.out.println(response);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        NewsStructure data = objectMapper.readValue(response.getBody(), NewsStructure.class);
+        NewsTitle[] news = data.getData();
+        String newsJson = objectMapper.writeValueAsString(news);
+            // System.out.println("After consolidating, response is :" + statsJson);
+        return new ResponseEntity<>(newsJson, HttpStatus.OK);
     }
 
     public ResponseEntity<String> getLatestQuote(String ticker) {

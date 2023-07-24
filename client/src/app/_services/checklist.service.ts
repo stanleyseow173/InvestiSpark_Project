@@ -17,10 +17,10 @@ export class ChecklistService{
     }
 
     createNewChecklist(email: string):Observable<any>{
-        console.info("email received is:" + email)
+        //console.info("email received is:" + email)
         let params = new HttpParams();
         if(email){
-            console.info("set parameter")
+            //console.info("set parameter")
             params = params.set('authorEmail',email);
         }
         return this.http.post(`${CHECKLIST_URL}/create`,{}, {params: params})
