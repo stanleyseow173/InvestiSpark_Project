@@ -36,6 +36,7 @@
         <textarea matInput formControlName="content" rows="11" (keyup)="keyUp(inputValue.value)" #inputValue></textarea>
       </mat-form-field>
     </mat-dialog-content>
+   
     <div class="estimation-div" *ngIf="form.get('category').value === 'Estimation' ">
         <p class="estimation-title">Your Estimate:</p>
         <table class="estimation-table">
@@ -84,6 +85,7 @@
         </div>
         <ng-template #noResults></ng-template>
     </div>
+    
     <div class="tipsDiv">
         <h4><strong>Tips on making great posts</strong></h4>
         <ul>

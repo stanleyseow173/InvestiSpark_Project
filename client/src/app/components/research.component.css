@@ -2,11 +2,15 @@
     position: relative;
 }
 
+.inputsearch{
+  width: 100%;
+}
+
 .innerSearchDiv{
     position: absolute;
-    background: white;
-    padding-left: 15px;
-    width: 100%;
+    background: rgb(240, 240, 240);
+    padding-left: 10px;
+    width: 98%;
     z-index: 100;
     text-align: left;
 }
@@ -28,6 +32,11 @@
   .custom-link {
     cursor: pointer;
     pointer-events: auto;
+    display: block;
+  }
+
+  .custom-link:hover{
+    background-color: #d0d0d0;
   }
 
   .full-width {
@@ -36,6 +45,7 @@
 
   .card{
     height: 35px;
+    margin-bottom: 0px;
   }
 
   .form-control, .form-control:focus{
@@ -288,6 +298,7 @@
 }
 
 .paragraph-notice{
+  margin-top: 15px;
   color: grey;
   font-size: 12px;
   font-style: italic;

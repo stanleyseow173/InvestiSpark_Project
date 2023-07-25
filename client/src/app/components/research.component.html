@@ -12,31 +12,33 @@
                     <h3 class="description">Stock Research on: </h3>
                     <div class="card shadow">
                         <div class="input-group no-border">
-                            <input [value] = "inputValue" type="text" id="filter" placeholder="Search Stock..." (keyup)="filterSubject.next(inputFilter.value)" class="form-control"  aria-label="Search" #inputFilter>
+                            <input [value] = "inputValue" type="text" id="filter" placeholder="Search Stock..." (keyup)="filterSubject.next(inputFilter.value)" class="form-control inputsearch"  aria-label="Search" #inputFilter>
+                        </div>
+                        
                         </div>
                     </div>
+                    <div class="outerSearchDiv">
+                        <div class="innerSearchDiv" *ngIf="!isLoading; else loading">
+                            <ng-container *ngIf="stocks$ | async as stocks; else noResults">
+                                <div *ngIf ="stocks.length >0; else noResults">
+                                    <div *ngFor="let s of stocks">
+                                        <a class="custom-link" (click)="getQuote(s.symbol, s.name)">{{s.symbol}}: ({{s.name}})</a>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-template #noResults></ng-template>
+                        </div>
+                        <ng-template #loading>
+                            <div class="loader">
+                            </div>
+                        </ng-template>
                     <p class="paragraph-notice">*Limit of 5 API calls per minute</p>
                     <button mat-raised-button class="save-btn checklist-btn" (click)="testLoad()">Update Stock Symbols</button>
                 </div>
             </div>
            
             
-            <div class="outerSearchDiv">
-                <div class="innerSearchDiv" *ngIf="!isLoading; else loading">
-                    <ng-container *ngIf="stocks$ | async as stocks; else noResults">
-                        <div *ngIf ="stocks.length >0; else noResults">
-                            <div *ngFor="let s of stocks">
-                                <a class="custom-link" (click)="getQuote(s.symbol, s.name)">{{s.symbol}}: ({{s.name}})</a>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <ng-template #noResults></ng-template>
-                </div>
-                <ng-template #loading>
-                    <div class="loader">
-                    </div>
-                </ng-template>
-            </div>
+            
             
             
 

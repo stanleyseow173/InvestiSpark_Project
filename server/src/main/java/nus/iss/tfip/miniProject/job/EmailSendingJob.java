@@ -31,7 +31,7 @@ public class EmailSendingJob {
     @Value("${RAPIDAPIKEY}")
     private String mBoumKey;
 
-    @Scheduled(cron = "0 20 16 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void sendEmailNotifications() {
 
         String externalApiUrl = "https://mboum-finance.p.rapidapi.com/qu/quote?symbol=";

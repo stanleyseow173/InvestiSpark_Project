@@ -23,24 +23,24 @@ import nus.iss.tfip.miniProject.services.NoteService;
 @RestController
 @RequestMapping("/api/notes")
 public class NoteController {
-    
+
     @Autowired
     private NoteService noteService;
 
     @PostMapping
-    public ReturnNote createNote(@RequestBody ReturnNote retNote){
+    public ReturnNote createNote(@RequestBody ReturnNote retNote) {
         Note createNote = new Note();
         createNote.setNameSymbol(retNote.getNameSymbol());
         createNote.setContent(retNote.getContent());
-        createNote.setTimestamp(LocalDateTime.now()); //set the localDateTime using java time
+        createNote.setTimestamp(LocalDateTime.now().plusHours(8)); // set the localDateTime using java time
         noteService.createNote(createNote);
         return retNote;
     }
 
     @GetMapping("/{nameSymbol}")
-    public ResponseEntity<ReturnNote> getNote(@PathVariable String nameSymbol){
+    public ResponseEntity<ReturnNote> getNote(@PathVariable String nameSymbol) {
         Optional<Note> getNoteOpt = noteService.getNote(nameSymbol);
-        if (getNoteOpt.isPresent()){
+        if (getNoteOpt.isPresent()) {
             Note getNote = getNoteOpt.get();
             ReturnNote retNote = new ReturnNote();
             retNote.setNameSymbol(getNote.getNameSymbol());
@@ -49,18 +49,18 @@ public class NoteController {
             String formattedDateTime = getNote.getTimestamp().format(formatter);
             retNote.setDate(formattedDateTime);
             return new ResponseEntity<>(retNote, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
 
     @PutMapping("/{nameSymbol}")
-    public ReturnNote updateNote(@PathVariable String nameSymbol, @RequestBody ReturnNote retNote){
+    public ReturnNote updateNote(@PathVariable String nameSymbol, @RequestBody ReturnNote retNote) {
         Note createNote = new Note();
         createNote.setNameSymbol(retNote.getNameSymbol());
         createNote.setContent(retNote.getContent());
-        createNote.setTimestamp(LocalDateTime.now()); //set the localDateTime using java time'
+        createNote.setTimestamp(LocalDateTime.now().plusHours(8)); // set the localDateTime using java time'
         noteService.updateNote(nameSymbol, createNote);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm'hrs'");
         String formattedDateTime = createNote.getTimestamp().format(formatter);
@@ -69,7 +69,7 @@ public class NoteController {
     }
 
     @DeleteMapping("/{nameSymbol}")
-    public void deleteNote(@PathVariable String nameSymbol){
+    public void deleteNote(@PathVariable String nameSymbol) {
         noteService.deleteNote(nameSymbol);
     }
 }

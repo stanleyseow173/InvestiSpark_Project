@@ -83,6 +83,7 @@ export class PostCreateDialogComponent implements OnInit, OnDestroy{
   keyUp(text: string) {
     const words = text.split(' ');
     const lastWord = words[words.length -1];
+    
     this.keyUpSubject.next(text);
     if(lastWord.includes('$')){
       const splitText = lastWord.split('$');
